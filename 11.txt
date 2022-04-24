@@ -1,0 +1,60 @@
+import speech_recognition as sr
+r=sr.Recognizer()
+with sr.Microphone() as source:
+    print("Speak into the microphone")
+    audio = r.listen(source)
+
+
+try:
+    text=r.recognize_google(audio)
+    print("Transcription :"+ text)
+except sr.UnknownValueError:
+    print("Audio not recognized")
+except sr.RequestError as e:
+    print("Cannot obtain result; {0}".format(e))
+
+import nltk
+
+#tokenization of the sentence
+from nltk.tokenize import word_tokenize
+print(text)
+print("\n")
+print(word_tokenize(text))
+print("\n")
+
+#stopwords removal
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+stop_words = set(stopwords.words('english'))
+word_tokens = word_tokenize(text)
+filtered_sentence = [w for w in word_tokens if not w in stop_words]
+filtered_sentence = []
+for w in word_tokens:
+    if w not in stop_words:
+        filtered_sentence.append(w)
+print(filtered_sentence)
+print("\n")
+
+#stemming
+from nltk.stem import PorterStemmer
+from nltk.tokenize import sent_tokenize, word_tokenize
+
+ps = PorterStemmer()
+words = word_tokenize(text)
+
+for w in words:
+    print(ps.stem(w))
+print("\n")
+
+#POS tagging
+
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import sent_tokenize
+stop_words = set(stopwords.words('english'))
+tokenized = sent_tokenize(text)
+for i in tokenized:
+    wordsList = nltk.word_tokenize(i)
+    wordsList = [w for w in wordsList if not w in stop_words]
+    tagged = nltk.pos_tag(wordsList)
+    print(tagged)
