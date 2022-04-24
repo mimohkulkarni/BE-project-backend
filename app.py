@@ -19,6 +19,7 @@ def home():
         try:
             file.save(file.filename)
             data = generatequery(query,file.filename)
+            print("results loaded")
             return jsonify({'data': data})
         except Exception as e:
             print(str(e))
